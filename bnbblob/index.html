@@ -3,33 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self';">
-    <title>Blob World</title>
-    <link rel="stylesheet" href="./styles.css">
-    <!-- GSAP for animations -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <!-- Howler.js for audio management -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts for cartoon style -->
-    <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&display=swap" rel="stylesheet">
+    <title>Blob World - Minimal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #87CEEB;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+        #blob {
+            width: 300px;
+            height: auto;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        #blob:hover {
+            transform: scale(1.1);
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>blob world</h1>
-        <div class="social-icons">
-            <a href="https://x.com/blob_binance" target="_blank" class="icon x-icon">
-                <i class="fab fa-twitter"></i>
-            </a>
-            <a href="https://t.me/blobonbnb" target="_blank" class="icon telegram-icon">
-                <i class="fab fa-telegram"></i>
-            </a>
-        </div>
-    </header>
-    <div class="ocean-container">
-        <img id="blob" src="blobbb.png" alt="Blob">
+    <h1>blob world - minimal version</h1>
+    <img id="blob" src="blobbb.png" alt="Blob" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIxNTAiIGN5PSIxNTAiIHI9IjEwMCIgZmlsbD0iIzAwYWFmZiIvPjwvc3ZnPg==';">
+    
+    <div id="debug-info" style="margin-top: 2rem; padding: 1rem; background: rgba(0,0,0,0.5); max-width: 80%;">
+        <p>Debug information will appear here</p>
     </div>
-    <script src="script.js"></script>
+    
+    <script>
+        // Simple debug logger
+        function log(message) {
+            console.log(message);
+            const debugInfo = document.getElementById('debug-info');
+            const logEntry = document.createElement('p');
+            logEntry.textContent = message;
+            debugInfo.appendChild(logEntry);
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            log('Document loaded');
+            
+            // Check image load
+            const blob = document.getElementById('blob');
+            log('Checking for blob image...');
+            
+            // Check for files
+            const filesToCheck = ['blobbb.png', 'beachsong.mp3', 'laughh.mp3', 'ocean.png', 'styles.css', 'script.js'];
+            filesToCheck.forEach(file => {
+                fetch(file, { method: 'HEAD' })
+                    .then(response => {
+                        log(`${file}: ${response.ok ? 'Found' : 'Not found (404)'}`);
+                    })
+                    .catch(error => {
+                        log(`${file}: Error - ${error.message}`);
+                    });
+            });
+            
+            // Add simple click handler
+            blob.addEventListener('click', () => {
+                log('Blob clicked!');
+                blob.style.transform = 'rotate(15deg)';
+                setTimeout(() => {
+                    blob.style.transform = 'rotate(0deg)';
+                }, 500);
+            });
+        });
+    </script>
 </body>
 </html>
