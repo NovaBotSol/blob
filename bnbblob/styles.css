@@ -3,18 +3,16 @@
     padding: 0;
     box-sizing: border-box;
 }
-
 body {
     font-family: 'Bubblegum Sans', cursive;
     overflow: hidden;
     height: 100vh;
     width: 100vw;
-    background: url('ocean.png') no-repeat center center;
+    background: url('./ocean.png') no-repeat center center;
     background-size: cover;
     color: #fff;
     position: relative;
 }
-
 header {
     display: flex;
     justify-content: space-between;
@@ -23,7 +21,6 @@ header {
     position: relative;
     z-index: 10;
 }
-
 h1 {
     font-size: 3rem;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5), 
@@ -32,7 +29,6 @@ h1 {
     animation: float 3s ease-in-out infinite;
     display: inline-block;
 }
-
 @keyframes float {
     0%, 100% {
         transform: translateY(0);
@@ -41,31 +37,25 @@ h1 {
         transform: translateY(-10px);
     }
 }
-
 .social-icons {
     display: flex;
     gap: 1rem;
 }
-
 .icon {
     font-size: 2rem;
     color: #fff;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     transition: transform 0.3s, color 0.3s;
 }
-
 .icon:hover {
     transform: scale(1.2);
 }
-
 .x-icon:hover {
     color: #1DA1F2;
 }
-
 .telegram-icon:hover {
     color: #0088cc;
 }
-
 .ocean-container {
     position: absolute;
     top: 0;
@@ -74,7 +64,6 @@ h1 {
     height: 100%;
     z-index: 5;
 }
-
 #blob {
     position: absolute;
     width: 300px;
@@ -83,7 +72,6 @@ h1 {
     filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.7));
     z-index: 1000;
 }
-
 /* Responsive design */
 @media (max-width: 768px) {
     h1 {
@@ -98,7 +86,6 @@ h1 {
         width: 200px;
     }
 }
-
 @media (max-width: 480px) {
     h1 {
         font-size: 1.5rem;
@@ -111,4 +98,4 @@ h1 {
     #blob {
         width: 160px;
     }
-} 
+}
