@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self';">
     <title>Blob World</title>
     <link rel="stylesheet" href="./styles.css">
     <!-- GSAP for animations -->
@@ -27,8 +28,8 @@
         </div>
     </header>
     <div class="ocean-container">
-        <img id="blob" src="./blobbb.png" alt="Blob">
+        <img id="blob" src="blobbb.png" alt="Blob">
     </div>
-    <script src="./script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
