@@ -1,7 +1,33 @@
 document.addEventListener('DOMContentLoaded', () => {
+    console.log("Document loaded");
+    
+    // Check if dependencies are loaded
+    if (typeof Howl === 'undefined') {
+        console.error("Howler.js not loaded");
+        return;
+    }
+    
+    if (typeof gsap === 'undefined') {
+        console.error("GSAP not loaded");
+        return;
+    }
+    
+    // Try to detect file availability
+    function checkFileExists(url) {
+        return new Promise((resolve) => {
+            fetch(url, { method: 'HEAD' })
+                .then(response => {
+                    resolve(response.ok);
+                })
+                .catch(() => {
+                    resolve(false);
+                });
+        });
+    }
+    
     // Initialize Howler audio objects with proper error handling
     const backgroundMusic = new Howl({
-        src: ['./beachsong.mp3'],
+        src: ['beachsong.mp3'],
         loop: true,
         volume: 0.5,
         html5: true,
@@ -11,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const laughSound = new Howl({
-        src: ['./laughh.mp3'],
+        src: ['laughh.mp3'],
         volume: 0.7,
         html5: true,
         onloaderror: function(id, err) {
@@ -27,7 +53,8 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Try to autoplay background music (will likely be blocked by browser)
-    playBackgroundMusic();
+    // Wait for user interaction instead
+    // playBackgroundMusic();
 
     // Add listener for user interaction to start music if autoplay fails
     document.body.addEventListener('click', playBackgroundMusic, { once: true });
@@ -37,6 +64,39 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!blob) {
         console.error('Blob element not found');
         return;
+    }
+    
+    console.log("Blob element found");
+
+    // Check if the blob image is loaded
+    blob.addEventListener('load', () => {
+        console.log("Blob image loaded successfully");
+        startBlobAnimation();
+    });
+    
+    blob.addEventListener('error', () => {
+        console.error("Failed to load blob image");
+    });
+    
+    // If the image is already loaded, this will be missed, so check
+    if (blob.complete) {
+        console.log("Blob image was already loaded");
+        startBlobAnimation();
+    }
+    
+    function startBlobAnimation() {
+        // Set initial blob position
+        initialPositioning();
+        
+        // Start the random swimming animation
+        animateBlob();
+        
+        // Add click/tap event listener to blob
+        blob.addEventListener('click', swimAway);
+        blob.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Prevent default touch behavior
+            swimAway();
+        });
     }
 
     // Set initial blob position
@@ -49,12 +109,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 x: (window.innerWidth - blobRect.width) / 2,
                 y: (window.innerHeight - blobRect.height) / 2
             });
+            
+            console.log("Initial blob position set");
         } catch (error) {
             console.error('Error in initial positioning:', error);
         }
     };
-
-    initialPositioning();
 
     // Function to get random position within viewable bounds
     const getRandomPosition = () => {
@@ -90,9 +150,6 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(animateBlob, 1000);
         }
     };
-
-    // Start the random swimming animation
-    animateBlob();
 
     // Function to make blob swim away when tapped
     const swimAway = () => {
@@ -153,13 +210,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Add click/tap event listener to blob
-    blob.addEventListener('click', swimAway);
-    blob.addEventListener('touchstart', (e) => {
-        e.preventDefault(); // Prevent default touch behavior
-        swimAway();
-    });
-
     // Handle window resize to keep blob in bounds
     window.addEventListener('resize', () => {
         try {
@@ -179,5 +229,22 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error('Error handling resize:', error);
         }
+    });
+    
+    // Log any potential 404 errors
+    console.log("Checking for resources:");
+    
+    // Check for each resource
+    Promise.all([
+        checkFileExists('beachsong.mp3'),
+        checkFileExists('laughh.mp3'),
+        checkFileExists('blobbb.png'),
+        checkFileExists('ocean.png')
+    ]).then(results => {
+        console.log('Resources status:');
+        console.log('beachsong.mp3:', results[0] ? 'Found' : 'Not found (404)');
+        console.log('laughh.mp3:', results[1] ? 'Found' : 'Not found (404)');
+        console.log('blobbb.png:', results[2] ? 'Found' : 'Not found (404)');
+        console.log('ocean.png:', results[3] ? 'Found' : 'Not found (404)');
     });
 });
